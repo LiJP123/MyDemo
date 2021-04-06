@@ -1,0 +1,6 @@
+spring:
+    redis:
+        host: 10.102.230.105
+        database: 0
+        password: '*4OzapN!S5EvBZy4'
+        port: 6379
