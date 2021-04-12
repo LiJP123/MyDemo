@@ -102,12 +102,16 @@ public class CrawTextThread extends Thread{
                 for (int i=1;i<s.length;i++){
                     z=z+"章）"+s[i];
                 }
+            }else if(title.indexOf("章）")>-1){
+                z=z+"章）";
             }
             if(title.split("章\\)").length>1){
                 String [] s=title.split("章\\)");
                 for (int i=1;i<s.length;i++){
                     z=z+"章\\)"+s[i];
                 }
+            }else if(title.indexOf("章\\)")>-1){
+                z=z+"章\\)";
             }
         }
         String str=title2.trim().substring(0,1);
@@ -118,7 +122,7 @@ public class CrawTextThread extends Thread{
                 Pattern p2=Pattern.compile(P2);
                 Matcher m2=p2.matcher(title2);
                 if (m2.find(0)) {
-                    title="第"+m2.group(0).trim()+"章 "+title2.split(m2.group(1))[1].trim();
+                    title="第"+m2.group(0).trim()+"章 "+title2.split(m2.group(1))[1].trim()+z;
                 }
             }
         }
