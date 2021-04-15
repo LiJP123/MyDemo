@@ -22,7 +22,7 @@ public class CrawlText {
      *            网站链接
      * @throws IOException
      */
-    public static void getText(boolean autoDownloadFile, boolean Multithreading, String Url,String fileName) throws IOException {
+    public static void getText(boolean autoDownloadFile, boolean Multithreading, String Url,String fileName,boolean b) throws IOException {
 
         String rule = "abs:href";
         List<String> urlList = new ArrayList<String>();
@@ -31,7 +31,9 @@ public class CrawlText {
                 .ignoreContentType(true)
                 .userAgent("Mozilla\" to \"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0)")
                 .get();
-
+        if(b){
+            urlList.add(Url);
+        }
         Elements urlNode = document.select("a[href$=.html]");
         if(Url.indexOf(".html")>-1) {
             String url2 = null;
@@ -46,7 +48,7 @@ public class CrawlText {
                 }
             }
             if (url2 != null) {
-                getText(true, true, url2, fileName);
+                getText(true, true, url2, fileName,false);
             }
         }else{
             for (Element element : urlNode) {
@@ -59,7 +61,7 @@ public class CrawlText {
     public static void main( String[] args )
     {
         try {
-            CrawlText.getText(true, true, "http://www.biquges.com/23_23084/14712040.html","离天大圣");
+            CrawlText.getText(true, true, "http://www.biquges.com/8_8815/12766497.html","test",true);
 //            CrawlText.getText(true, true, "https://www.biqumo.com/0_530/4158303.html","0_530");
         } catch (IOException e) {
             // TODO Auto-generated catch block

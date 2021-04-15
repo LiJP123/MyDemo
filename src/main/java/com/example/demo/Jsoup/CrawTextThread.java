@@ -85,37 +85,38 @@ public class CrawTextThread extends Thread{
     }
 
     public static String FileterHtml(String str) {
+        str=str.replaceAll("<br> \n", "");
         str=str.replaceAll("<br>", "");
         str=str.replaceAll("<h1>", "").replaceAll("</h1>", "");
         str=str.replaceAll("&nbsp;", "");
-        return str.replaceAll(" ", "").replaceAll("<br>", "\r\n");
+        return str.replaceAll(" ", "");
 
     }
     public static String isContains(String title){
         title=FileterHtml(title);
-        String title2=title;
-        String z="";
-        if(title.indexOf("章）")>-1||title.indexOf("章)")>-1){
-            title2=title.split("章）").length>0?title.split("章）")[0]:title.split("章\\)")[0];
-            if(title.split("章）").length>1){
-                String [] s=title.split("章）");
-                for (int i=1;i<s.length;i++){
-                    z=z+"章）"+s[i];
-                }
-            }else if(title.indexOf("章）")>-1){
-                z=z+"章）";
-            }
-            if(title.split("章\\)").length>1){
-                String [] s=title.split("章\\)");
-                for (int i=1;i<s.length;i++){
-                    z=z+"章\\)"+s[i];
-                }
-            }else if(title.indexOf("章\\)")>-1){
-                z=z+"章\\)";
-            }
-        }
-        String str=title2.trim().substring(0,1);
+        String str=title.trim().substring(0,1);
         if(!str.equals("第")){
+            String title2=title;
+            String z="";
+            if(title.indexOf("章）")>-1||title.indexOf("章)")>-1){
+                title2=title.split("章）").length>0?title.split("章）")[0]:title.split("章\\)")[0];
+                if(title.split("章）").length>1){
+                    String [] s=title.split("章）");
+                    for (int i=1;i<s.length;i++){
+                        z=z+"章）"+s[i];
+                    }
+                }else if(title.indexOf("章）")>-1){
+                    z=z+"章）";
+                }
+                if(title.split("章\\)").length>1){
+                    String [] s=title.split("章\\)");
+                    for (int i=1;i<s.length;i++){
+                        z=z+"章\\)"+s[i];
+                    }
+                }else if(title.indexOf("章\\)")>-1){
+                    z=z+"章\\)";
+                }
+            }
             Pattern p=Pattern.compile(P1);
             Matcher m=p.matcher(title2);
             if (!m.find(0)) {
