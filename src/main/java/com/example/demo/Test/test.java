@@ -1,5 +1,8 @@
 package com.example.demo.Test;
 
+import com.example.demo.Jsoup.ConvertUtil;
+import com.example.demo.Jsoup.CrawTextThread;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,11 +13,20 @@ import java.util.regex.Pattern;
 
 public class test {
     public static void main(String[] args) {
-
-        String math = "^(([\\u2E80-\\uFE4F](?![\\u3000-\\u303F]))+)$";
-        String name = "顑";
-        System.out.println(name.matches(math));
-
+//
+//        String math = "^(([\\u2E80-\\uFE4F](?![\\u3000-\\u303F]))+)$";
+//        String name = "顑";
+//        System.out.println(name.matches(math));
+        String str="第两千零一章 发点福利（第二更）";
+        Integer i=ConvertUtil.getArabicFromChinese(str.substring(1,str.indexOf("章")));
+        String tt="";
+        if(i>0){
+            tt=i.toString();
+            String t="第"+tt+str.substring(str.indexOf("章"));
+            System.out.println(t);
+        }else{
+            System.out.println(str);
+        }
     }
     class tes{
         private LocalDateTime dateTime;

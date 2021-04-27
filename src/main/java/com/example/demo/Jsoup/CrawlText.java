@@ -42,8 +42,7 @@ public class CrawlText {
                 if (aStr.text().equals("下一章")) {
                     urlList.add(element.attr(rule));
                     url2 = element.attr(rule);
-                    CrawTextThread crawTextThread = new CrawTextThread(urlList,fileName);
-                    crawTextThread.run();
+                    CrawTextThread.run(urlList,fileName);
                     break;
                 }
             }
@@ -54,14 +53,13 @@ public class CrawlText {
             for (Element element : urlNode) {
                 urlList.add(element.attr(rule));
             }
-            CrawTextThread crawTextThread = new CrawTextThread(urlList,fileName);
-            crawTextThread.run();
+            CrawTextThread.run(urlList,fileName);
         }
     }
     public static void main( String[] args )
     {
         try {
-            CrawlText.getText(true, true, "http://www.biquges.com/8_8815/12766497.html","test",true);
+            CrawlText.getText(true, true, "http://www.biquges.com/53_53560/25868986.html","妖魔哪里走2",true);
 //            CrawlText.getText(true, true, "https://www.biqumo.com/0_530/4158303.html","0_530");
         } catch (IOException e) {
             // TODO Auto-generated catch block

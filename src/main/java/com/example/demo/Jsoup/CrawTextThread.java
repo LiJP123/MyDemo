@@ -10,9 +10,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CrawTextThread extends Thread{
-    private static String P1="[^\\d\r\n]*?(\\d+)[^\r\n]*?(章)";
-    private static String P2="[^\\d\r\n]*?(\\d+)[^\r\n]*?";
+public class CrawTextThread{
+    private static String P1="[^\\d\r\n]*?(\\d+)[^\r\n]*?";
     List<String> UrlList;
     String fileName;
 
@@ -60,8 +59,7 @@ public class CrawTextThread extends Thread{
         }
     }
 
-    @Override
-    public void run() {
+    public static void run(List<String> urlList,String fileName) {
         String content;
         File file = new File(PATH+fileName+".txt");
         try {
@@ -69,12 +67,24 @@ public class CrawTextThread extends Thread{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (String url : UrlList) {
+        for (String url : urlList) {
             try {
                 Document document = Jsoup.connect(url).timeout(6000).get();
-                String title = document.select("h1").toString();
+                String title2 = document.select("h1").toString();
                 content = document.select("#content").html();
-                writeTxtFile(isContains(title),FileterHtml(content), file);
+                String title =isContains(title2);
+                if(title.trim().substring(0,1).equals("第")&&title.indexOf("章")>-1){
+                    Integer t=ConvertUtil.getArabicFromChinese(title.substring(1,title.indexOf("章")));
+                    if(t>0){
+                        try{
+                            title="第 "+t+title.substring(title.indexOf(" 章"));
+                        }catch (Exception e){
+                            title=FileterHtml(title2);
+                            System.out.println(title);
+                        }
+                    }
+                }
+                writeTxtFile(title,FileterHtml(content), file);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -94,37 +104,14 @@ public class CrawTextThread extends Thread{
     }
     public static String isContains(String title){
         title=FileterHtml(title);
-        String str=title.trim().substring(0,1);
-        if(!str.equals("第")){
-            String title2=title;
-            String z="";
-            if(title.indexOf("章）")>-1||title.indexOf("章)")>-1){
-                title2=title.split("章）").length>0?title.split("章）")[0]:title.split("章\\)")[0];
-                if(title.split("章）").length>1){
-                    String [] s=title.split("章）");
-                    for (int i=1;i<s.length;i++){
-                        z=z+"章）"+s[i];
-                    }
-                }else if(title.indexOf("章）")>-1){
-                    z=z+"章）";
-                }
-                if(title.split("章\\)").length>1){
-                    String [] s=title.split("章\\)");
-                    for (int i=1;i<s.length;i++){
-                        z=z+"章\\)"+s[i];
-                    }
-                }else if(title.indexOf("章\\)")>-1){
-                    z=z+"章\\)";
-                }
-            }
-            Pattern p=Pattern.compile(P1);
-            Matcher m=p.matcher(title2);
-            if (!m.find(0)) {
-                Pattern p2=Pattern.compile(P2);
-                Matcher m2=p2.matcher(title2);
-                if (m2.find(0)) {
-                    title="第"+m2.group(0).trim()+"章 "+title2.split(m2.group(1))[1].trim()+z;
-                }
+        if(!title.trim().substring(0,1).equals("第")){
+            Pattern p = Pattern.compile(P1);
+            Matcher m = p.matcher(title);
+            if (m.find(0)) {
+                String str2 = ConvertUtil.getChineseFromArabic(Integer.valueOf(m.group(0).trim()));
+                Integer i = ConvertUtil.getArabicFromChinese(str2);
+                title = title.trim().substring(title.trim().indexOf(i.toString())+(i.toString().length()+(title.indexOf(".")>-1?1:0)));
+                title = "第 " + i + " 章 " + title;
             }
         }
         return title;
