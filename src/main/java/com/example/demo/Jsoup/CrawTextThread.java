@@ -80,7 +80,6 @@ public class CrawTextThread{
                             title="第 "+t+title.substring(title.indexOf(" 章"));
                         }catch (Exception e){
                             title=FileterHtml(title2);
-                            System.out.println(title);
                         }
                     }
                 }
@@ -97,6 +96,8 @@ public class CrawTextThread{
     public static String FileterHtml(String str) {
         str=str.replaceAll("<br> \n", "");
         str=str.replaceAll("<br>", "");
+        str=str.replaceAll("<p>", "");
+        str=str.replaceAll("</p>", "");
         str=str.replaceAll("<h1>", "").replaceAll("</h1>", "");
         str=str.replaceAll("&nbsp;", "");
         return str.replaceAll(" ", "");
@@ -108,7 +109,13 @@ public class CrawTextThread{
             Pattern p = Pattern.compile(P1);
             Matcher m = p.matcher(title);
             if (m.find(0)) {
-                String str2 = ConvertUtil.getChineseFromArabic(Integer.valueOf(m.group(0).trim()));
+                Integer arabic=null;
+                try{
+                    arabic=Integer.valueOf(m.group(0).trim());
+                }catch (Exception e){
+                    arabic=Integer.valueOf(m.group(1).trim());
+                }
+                String str2 = ConvertUtil.getChineseFromArabic(arabic);
                 Integer i = ConvertUtil.getArabicFromChinese(str2);
                 title = title.trim().substring(title.trim().indexOf(i.toString())+(i.toString().length()+(title.indexOf(".")>-1?1:0)));
                 title = "第 " + i + " 章 " + title;

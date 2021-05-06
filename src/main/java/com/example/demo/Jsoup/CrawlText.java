@@ -59,7 +59,7 @@ public class CrawlText {
     public static void main( String[] args )
     {
         try {
-            CrawlText.getText(true, true, "http://www.biquges.com/53_53560/25868986.html","妖魔哪里走2",true);
+            CrawlText.getText(true, true, "http://www.biquges.com/52_52642/25585323.html","大奉打更人",true);
 //            CrawlText.getText(true, true, "https://www.biqumo.com/0_530/4158303.html","0_530");
         } catch (IOException e) {
             // TODO Auto-generated catch block
