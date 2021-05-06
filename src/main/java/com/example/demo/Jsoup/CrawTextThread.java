@@ -110,14 +110,16 @@ public class CrawTextThread{
             Matcher m = p.matcher(title);
             if (m.find(0)) {
                 Integer arabic=null;
+                boolean b=false;
                 try{
                     arabic=Integer.valueOf(m.group(0).trim());
                 }catch (Exception e){
                     arabic=Integer.valueOf(m.group(1).trim());
+                    b=true;
                 }
                 String str2 = ConvertUtil.getChineseFromArabic(arabic);
                 Integer i = ConvertUtil.getArabicFromChinese(str2);
-                title = title.trim().substring(title.trim().indexOf(i.toString())+(i.toString().length()+(title.indexOf(".")>-1?1:0)));
+                title = title.trim().substring(title.trim().indexOf(i.toString())+(i.toString().length()+(title.indexOf(".")>-1||b?1:0)));
                 title = "第 " + i + " 章 " + title;
             }
         }
