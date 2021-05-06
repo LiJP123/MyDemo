@@ -17,7 +17,7 @@ public class test {
 //        String math = "^(([\\u2E80-\\uFE4F](?![\\u3000-\\u303F]))+)$";
 //        String name = "顑";
 //        System.out.println(name.matches(math));
-        String str="第两千零一章 发点福利（第二更）";
+        String str="第一章牢狱之灾";
         Integer i=ConvertUtil.getArabicFromChinese(str.substring(1,str.indexOf("章")));
         String tt="";
         if(i>0){
