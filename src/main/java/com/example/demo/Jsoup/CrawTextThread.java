@@ -77,7 +77,7 @@ public class CrawTextThread{
                     Integer t=ConvertUtil.getArabicFromChinese(title.substring(1,title.indexOf("章")));
                     if(t>0){
                         try{
-                            title="第 "+t+title.substring(title.indexOf(" 章"));
+                            title="第 "+t+" "+title.substring(title.indexOf("章"));
                         }catch (Exception e){
                             title=FileterHtml(title2);
                         }
